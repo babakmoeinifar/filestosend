@@ -1,0 +1,26 @@
+ server {
+
+         server_name server.bshomar.com www.server.bshomar.com;
+
+         client_max_body_size 30m;
+
+         root /var/www/server/public;
+         index index.php index.html;
+
+         access_log /var/log/nginx/bshomar.server.access.log;
+         error_log /var/log/nginx/bshomar.server.error.log;
+
+         location / {
+                 try_files $uri $uri/ /index.php?$query_string;
+         }
+
+         location ~ \.php$ {
+             include snippets/fastcgi-php.conf;
+               fastcgi_pass unix:/var/run/php/php-fpm.sock;
+               fastcgi_intercept_errors on;
+         }
+
+         location ~ /\.ht {
+                 deny all;
+         }
+ }
